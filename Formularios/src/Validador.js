@@ -1,25 +1,23 @@
 import { InputMapper } from "./mapper/InputMapper.js"
-import { Config } from "./config/Config.js"
+
 
 export class Validador {
-    #operations = {
-        "euro": this.#euroAddEvents,
-        "date": this.#dateAddEvents
-    }
 
-    constructor() {
+    static init(Config) {
+        Config.addType("euro",Validador.euroAddEvents);
+        Config.addType("date",Validador.dateAddEvents);
         [...document.forms].forEach((item) => {
             InputMapper(item.elements).forEach( (item)=> {
-                this.#operations[item.type](item);        
+                Config.classTypes[item.type](item);        
             });   
         })
     }
 
-    #euroAddEvents(item) {
+    static euroAddEvents(item) {
         console.log("Edito euro");
     }
 
-    #dateAddEvents(item) {
+    static dateAddEvents(item) {
         console.log("Edito fecha");
     }
 }
