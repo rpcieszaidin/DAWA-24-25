@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0">
+    <title>Ejercicio 1a</title>
+</head>
+<body>
+    <form>
+        <input id="dni" onchange="compruebaLetra(this)" />
+        <input type="button" value="Pulsa aquí" onclick="compruebaLetraBoton()"/>
+    </form>
+    <script>
+        var letras = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K',
+        'E', 'T'];
+
+        function compruebaLetra(object) {
+            object.value = object.value + letras[ parseInt(object.value) % 23 ];
+        }
+
+        function compruebaLetraBoton() {
+            let dniValue = document.getElementById("dni").value;
+            document.getElementById("dni").value = dniValue + letras[ parseInt(dniValue) % 23 ];
+        }
+    </script>
+</body>
+</html>
