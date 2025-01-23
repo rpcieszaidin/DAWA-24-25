@@ -10,7 +10,11 @@ export class Board {
         this.#state = this.#states.NO_BUILD;
     }
 
-    build(content) {
+    build(payload) {
+        const { size, elements } = payload;
+        this.#board = new Array(size);
+        
+
         this.#state = this.#states.BUILD;
 
     }

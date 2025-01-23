@@ -19,12 +19,12 @@ export class GameService {
     do (data) {
         this.#actionsList[data.type] (data.content)
     };
-    do_newPlayer (content) {
+    do_newPlayer (payload) {
         console.log("ha llegado un jugador nuevo");
     };
 
-    do_newBoard(content) {
-        console.log(content);
+    do_newBoard(payload) {
+        this.#board.build(payload);
     }
     
 }
