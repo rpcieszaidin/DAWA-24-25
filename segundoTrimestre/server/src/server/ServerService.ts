@@ -1,6 +1,7 @@
 import { DefaultEventsMap, Server, Socket } from 'socket.io';
 import http from 'http';
 import { GameService } from '../game/GameService';
+import { AnyTxtRecord } from 'dns';
 
 export class ServerService {
     private io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null;
@@ -66,13 +67,13 @@ export class ServerService {
         player.join(room.toString());
     }
 
-    public sendMessage(room: String |null ,type: String, content: String) {
+    public sendMessage(room: String |null ,type: String, content: any) {
+        console.log(content);
         if (this.active && this.io!=null) {
             if (room != null) {
-                    this.io.to(room.toString()).emit(type.toString(), { 
-                        type, 
-                        content
-                    });
+                    this.io?.to(room.toString()).emit("message", {
+                        type, content
+                    })
             }
         }
     }

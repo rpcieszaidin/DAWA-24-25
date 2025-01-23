@@ -9,9 +9,12 @@ export const ConnectionHandler = {
     init: (url, onConnectedCallBack, onDisconnectedCallBack) => {
         let { socket } = ConnectionHandler; 
         socket = io(url);
-        socket.onAny((data) => {
+        socket.onAny((message, payload) => {
             console.log("Esta llegando: ");
-            console.log(data);
+            console.log(payload);
+            console.log(payload.type);
+            console.log(payload.content);
+
           });
         socket.on("connect", (data) => {
             socket.on("connectionStatus", (data) => {
@@ -19,9 +22,9 @@ export const ConnectionHandler = {
                 console.log(data);
                 onConnectedCallBack();
             });
-            socket.on("NEW_PLAYER", (data) => {
-                ConnectionHandler.gameService.do(data);
-                socket.emit("message",{ type: "HELLO", content: "Hello world!"});
+            socket.on("message", (payload) => {
+                ConnectionHandler.gameService.do(payload);
+                //socket.emit("message",{ type: "HELLO", content: "Hello world!"});
             })
             socket.on("disconnect", () => {
                 ConnectionHandler.connected = false;
