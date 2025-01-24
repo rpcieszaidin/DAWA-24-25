@@ -5,6 +5,7 @@ export class GameService {
         PLAYING : 1,
         ENDED : 2
     };
+    #ui = null;
     #players = [];
     #board = null;
     #state = null;
@@ -16,6 +17,9 @@ export class GameService {
         this.#state = this.#states.WAITING;
         this.#board = new Board()
     }
+    set uiSetter(ui){
+        this.#ui = ui;
+    }
     do (data) {
         this.#actionsList[data.type] (data.content)
     };
@@ -25,6 +29,8 @@ export class GameService {
 
     do_newBoard(payload) {
         this.#board.build(payload);
+        this.#ui.drawBoard();
+        
     }
     
 }
