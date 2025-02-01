@@ -2,10 +2,9 @@ import { Socket } from "socket.io";
 import { Directions, Player, PlayerStates } from "../player/entities/Player";
 import { Room } from "../room/entities/Room";
 import { RoomService } from "../room/RoomService";
-import { Game, GameStates } from "./entities/Game";
+import { Game, GameStates, Messages } from "./entities/Game";
 import { BoardBuilder } from "./BoardBuilder";
-import { ServerService } from "../server/ServerService";
-
+import { ServerService } from "../server/ServerService"
 export class GameService {
     private games: Game[];
 
@@ -35,6 +34,8 @@ export class GameService {
 
     public addPlayer(player: Player): boolean {
         const room: Room = RoomService.getInstance().addPlayer(player);
+        //ServerService.getInstance().sendMessage(room.name,ServerService.messages.out.new_player,"new player");
+        ServerService.getInstance().sendMessage(room.name, Messages.NEW_PLAYER, "new player");
         const genRanHex = (size: Number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
         if (room.players.length == 1) {
             const game: Game = {
@@ -51,7 +52,7 @@ export class GameService {
             if (room.game) {
                 room.game.state = GameStates.PLAYING;
                 if (ServerService.getInstance().isActive()) {
-                    ServerService.getInstance().gameStartMessage();
+                    ServerService.getInstance().sendMessage(room.name, Messages.BOARD, room.game.board);
                 }
             }
             return true;
